@@ -183,9 +183,25 @@ class FacebookLogin extends React.Component {
     return Object.assign(style, this.props.containerStyle);
   }
 
+  _renderChild = () => {
+    const { icon, textButton, children } = this.props;
+    const child = (
+      children ||
+      (<div>
+        {icon && isIconString && (
+          <i className={`fa ${icon}`}></i>
+        )}
+        {icon && !isIconString && icon}
+        {textButton}
+      </div>)
+    );
+    return child;
+  }
+
   render() {
-    const { cssClass, size, icon, textButton, buttonStyle } = this.props;
+    const { cssClass, size, icon, buttonStyle } = this.props;
     const isIconString = typeof icon === 'string';
+
     return (
       <span style={ this.containerStyle() }>
         {isIconString && (
@@ -199,11 +215,7 @@ class FacebookLogin extends React.Component {
           style={ buttonStyle }
           onClick={this.click}
         >
-          {icon && isIconString && (
-            <i className={`fa ${icon}`}></i>
-          )}
-          {icon && !isIconString && icon}
-          {textButton}
+          {this._renderChild()}
         </button>
         {this.style()}
       </span>
